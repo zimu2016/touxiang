@@ -4,7 +4,7 @@ local totalTimes = 0
 local TURNTIME = 20
 
 function tx.total()
-	nLog(totalTimes)
+	-- nLog(totalTimes)
 	totalTimes = totalTimes + 1
 	if tx.JMvictory() then
 		tx.victoryEnd()
@@ -32,14 +32,14 @@ function tx.JMxuanpai()
 end
 
 function tx.start()
-	nLog("start")
+	-- nLog("start")
 	local x = random(900,970)
 	local y = random(550,620)
 	tap(x,y)
 end
 
 function tx.victoryEnd()
-	nLog("victoryEnd")
+	-- nLog("victoryEnd")
 	for i = 1,2 do
 		local x = random(820,1000)
 		local y = random(220,490)
@@ -47,6 +47,7 @@ function tx.victoryEnd()
 		waitSec(1)
 	end
 	victoryTime = victoryTime + 1
+	nLog("victoryTime----------"..victoryTime)
 	if victoryTime >= needWin then
 		-- lua_exit()
 		doBreak = true
@@ -54,14 +55,14 @@ function tx.victoryEnd()
 end
 
 function tx.querenxuanpai()
-	nLog("querenxuanpai")
+	-- nLog("querenxuanpai")
 	local x = random(600,680)
 	local y = random(550,580)
 	tap(x,y)
 end
 
 function tx.renshu()
-	nLog("renshu")
+	-- nLog("renshu")
 	local x = random(1230,1260)
 	local y = random(695,710)
 	tap(x,y)
