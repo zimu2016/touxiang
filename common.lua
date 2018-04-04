@@ -33,3 +33,13 @@ function ocr(list,MAX_TIME)
 		end
 	end
 end
+
+function ocr2(list)
+    local str,x1,y1,x2,y2 = list[1],list[2][1],list[2][2],list[3][1],list[3][2]
+    local text = ocrText(x1, y1, x2, y2, list[4], str)
+    if text == str then
+      return true
+    end
+    
+    return false
+end
