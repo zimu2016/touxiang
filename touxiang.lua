@@ -11,7 +11,7 @@ local panel = {
 	myTurn = 3,
 	enemyTurn = 4,
 	victory = 5,
-	lost = 6,
+	lose = 6,
 	getGold = 7,
 }
 
@@ -43,9 +43,9 @@ function tx.total()
 	elseif curt_panel == panel.victory then
 		-- nLog("victory")
 		tx.victoryEnd()
-	-- elseif curt_panel == panel.lost then
+	elseif curt_panel == panel.lose then
 		--运行不到
-		-- nLog("lost")
+		nLog("lose")
 		-- tx.renshu()
 	elseif curt_panel == panel.getGold then
 		-- nLog("getGold")
@@ -84,15 +84,13 @@ function tx.GetCurtPanel()
 		return panel.enemyTurn
 	end
 
-	-- if multiColor(colorList.victory) then
-	-- 	return panel.victory
-	-- end
 	if ocr2(ocrList.shengli) then
 		return panel.victory
 	end
 
-	-- if multiColor(colorList.lost) then
-	-- 	return panel.lost
+	-- if multiColor(colorList.lose) then
+	-- if ocr2(ocrList.lose) then
+		-- return panel.lose
 	-- end
 
 	if multiColor(colorList.getGold) then
