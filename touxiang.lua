@@ -13,6 +13,7 @@ local panel = {
 	victory = 5,
 	lose = 6,
 	getGold = 7,
+	setting = 8,
 }
 
 function tx.total()
@@ -50,6 +51,13 @@ function tx.total()
 	elseif curt_panel == panel.getGold then
 		-- nLog("getGold")
 		tx.randomClick()
+	elseif curt_panel == panel.setting then
+		for i = 1,2 do
+			local x = random(628,834)
+			local y = random(635,681)
+			tap(x,y)
+			waitSec(0.5)
+		end
 	else
 		free_tick = free_tick + 1
 		if free_tick > 10 then
@@ -95,6 +103,10 @@ function tx.GetCurtPanel()
 
 	if multiColor(colorList.getGold) then
 		return panel.getGold
+	end
+
+	if multiColor(colorList.setting) then
+		return panel.setting
 	end
 end
 
