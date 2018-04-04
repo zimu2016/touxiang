@@ -10,6 +10,7 @@ function tx.total()
 		tx.victoryEnd()
 		totalTimes = 0
 	elseif tx.JMstart() then
+		totalTimes = 0
 		tx.start()
 	elseif tx.JMxuanpai() then
 		tx.querenxuanpai()

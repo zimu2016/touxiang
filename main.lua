@@ -1,5 +1,5 @@
 require("const")
-needWin = 20
+needWin = 30
 init(0)
 doBreak = false
 
