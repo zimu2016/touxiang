@@ -61,6 +61,7 @@ function tx.total()
 			waitSec(0.5)
 		end
 	elseif curt_panel == panel.cost then
+		nLog("cost")
 		free_tick = 0
 		m_myTurn = true
 		m_enemyTurn = true
@@ -78,14 +79,6 @@ function tx.total()
 end
 
 function tx.GetCurtPanel()
-	if multiColor(colorList.wait) then
-		return panel.wait
-	end
-
-	if multiColor(colorList.xuanpai) then
-		return panel.xuanpai
-	end
-
 	if multiColor(colorList.myTurn,70) then
 		return panel.myTurn
 	end
@@ -98,7 +91,16 @@ function tx.GetCurtPanel()
 		return panel.enemyTurn
 	end
 
-	if ocr2(ocrList.shengli) then
+	if multiColor(colorList.wait) then
+		return panel.wait
+	end
+
+	if multiColor(colorList.xuanpai) then
+		return panel.xuanpai
+	end
+
+	-- if ocr2(ocrList.shengli) then
+	if multiColor(colorList.victory,80) then
 		return panel.victory
 	end
 
@@ -107,17 +109,17 @@ function tx.GetCurtPanel()
 		-- return panel.lose
 	-- end
 
-	if multiColor(colorList.getGold) then
-		return panel.getGold
-	end
+	-- if multiColor(colorList.getGold) then
+	-- 	return panel.getGold
+	-- end
 
 	if multiColor(colorList.setting) then
 		return panel.setting
 	end
 
-	if multiColor(colorList.cost,70) then
-		return panel.cost
-	end
+	-- if multiColor(colorList.cost,80) then
+	-- 	return panel.cost
+	-- end
 end
 
 function tx.start()
@@ -183,10 +185,12 @@ function tx.endTurn()
 end
 
 function tx.randomClick()
-	for i = 1,2 do
-		local x = random(820,1000)
-		local y = random(220,490)
-		tap(x,y)
-		waitSec(0.5)
-	end
+	local x = random(1008,1080)
+	local y = random(317,337)
+	tap(x,y)
+	waitSec(0.5)
+	x = random(820,1000)
+	y = random(220,490)
+	tap(x,y)
+	waitSec(0.5)
 end
