@@ -61,7 +61,7 @@ function tx.total()
 			waitSec(0.5)
 		end
 	elseif curt_panel == panel.cost then
-		nLog("cost")
+		-- nLog("cost")
 		free_tick = 0
 		m_myTurn = true
 		m_enemyTurn = true
@@ -100,7 +100,7 @@ function tx.GetCurtPanel()
 	end
 
 	-- if ocr2(ocrList.shengli) then
-	if multiColor(colorList.victory,80) then
+	if multiColor(colorList.victory,70) then
 		return panel.victory
 	end
 
