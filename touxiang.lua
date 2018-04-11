@@ -14,6 +14,7 @@ local panel = {
 	lose = 6,
 	getGold = 7,
 	setting = 8,
+	cost = 9,
 }
 
 function tx.total()
@@ -29,6 +30,7 @@ function tx.total()
 	elseif curt_panel == panel.xuanpai then
 		-- nLog("xuanpai")
 		free_tick = 0
+		tx.huanpai()
 		tx.querenxuanpai()
 	elseif curt_panel == panel.myTurn then
 		-- nLog("myTurn")
@@ -58,6 +60,10 @@ function tx.total()
 			tap(x,y)
 			waitSec(0.5)
 		end
+	elseif curt_panel == panel.cost then
+		free_tick = 0
+		m_myTurn = true
+		m_enemyTurn = true
 	else
 		free_tick = free_tick + 1
 		if free_tick > 10 then
@@ -80,15 +86,15 @@ function tx.GetCurtPanel()
 		return panel.xuanpai
 	end
 
-	if multiColor(colorList.myTurn) then
+	if multiColor(colorList.myTurn,70) then
 		return panel.myTurn
 	end
 
-	if multiColor(colorList.myTurnEnd) then
+	if multiColor(colorList.myTurnEnd,70) then
 		return panel.myTurn
 	end
 
-	if multiColor(colorList.enemyTurn) then
+	if multiColor(colorList.enemyTurn,70) then
 		return panel.enemyTurn
 	end
 
@@ -107,6 +113,10 @@ function tx.GetCurtPanel()
 
 	if multiColor(colorList.setting) then
 		return panel.setting
+	end
+
+	if multiColor(colorList.cost,70) then
+		return panel.cost
 	end
 end
 
@@ -127,6 +137,16 @@ function tx.victoryEnd()
 	if victoryTime >= needWin then
 		-- lua_exit()
 		doBreak = true
+	end
+end
+
+function tx.huanpai()
+	-- nLog("huanpai")
+	for i = 1,2 do
+		local x = random(330,940)
+		local y = random(250,430)
+		tap(x,y)
+		waitSec(0.5)
 	end
 end
 
