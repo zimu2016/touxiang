@@ -3,9 +3,11 @@ local victoryTime = 0
 local m_myTurn = false
 local m_enemyTurn = false
 local free_tick = 0
+local wait_time = 10
 
 local curt_panel = 0
 local panel = {
+	null = 0,
 	wait = 1,
 	xuanpai = 2,
 	myTurn = 3,
@@ -19,41 +21,41 @@ local panel = {
 
 function tx.total()
 	-- keepScreen(true)
-	curt_panel = 0
+	curt_panel = panel.null
 	curt_panel = tx.GetCurtPanel()
 	-- keepScreen(false)
 
 	if curt_panel == panel.wait then
-		-- nLog("wait")
-		free_tick = 0
+		nLog("wait")
+		free_tick = -15
 		tx.start()
 	elseif curt_panel == panel.xuanpai then
-		-- nLog("xuanpai")
+		nLog("xuanpai")
 		free_tick = 0
 		tx.huanpai()
 		tx.querenxuanpai()
 	elseif curt_panel == panel.myTurn then
-		-- nLog("myTurn")
-		free_tick = 0
+		nLog("myTurn")
 		m_myTurn = true
 		if not m_enemyTurn then
 			tx.endTurn()
+			waitSec(1)
 		end
 	elseif curt_panel == panel.enemyTurn then
-		free_tick = 0
+		nLog("enemyTurn")
 		m_enemyTurn = true
-		-- nLog("enemyTurn")
 	elseif curt_panel == panel.victory then
-		-- nLog("victory")
+		nLog("victory")
 		tx.victoryEnd()
-	elseif curt_panel == panel.lose then
+	-- elseif curt_panel == panel.lose then
 		--运行不到
-		nLog("lose")
+		-- nLog("lose")
 		-- tx.renshu()
-	elseif curt_panel == panel.getGold then
+	-- elseif curt_panel == panel.getGold then
 		-- nLog("getGold")
-		tx.randomClick()
+		-- tx.randomClick()
 	elseif curt_panel == panel.setting then
+		nLog("setting")
 		for i = 1,2 do
 			local x = random(628,834)
 			local y = random(635,681)
@@ -61,13 +63,15 @@ function tx.total()
 			waitSec(0.5)
 		end
 	elseif curt_panel == panel.cost then
-		-- nLog("cost")
+		nLog("cost")
 		free_tick = 0
 		m_myTurn = true
 		m_enemyTurn = true
-	else
+	elseif curt_panel == panel.null then
+		nLog("tick: "..free_tick)
 		free_tick = free_tick + 1
-		if free_tick > 10 then
+		if free_tick > wait_time then
+			wait_time = random(10,15)
 			tx.randomClick()
 			free_tick = 0
 		end
@@ -87,7 +91,7 @@ function tx.GetCurtPanel()
 		return panel.myTurn
 	end
 
-	if multiColor(colorList.enemyTurn,70) then
+	if multiColor(colorList.enemyTurn,80) then
 		return panel.enemyTurn
 	end
 
@@ -100,7 +104,7 @@ function tx.GetCurtPanel()
 	end
 
 	-- if ocr2(ocrList.shengli) then
-	if multiColor(colorList.victory,70) then
+	if multiColor(colorList.victory,70) or ocr2(ocrList.shengli) then
 		return panel.victory
 	end
 
@@ -120,6 +124,7 @@ function tx.GetCurtPanel()
 	-- if multiColor(colorList.cost,80) then
 	-- 	return panel.cost
 	-- end
+	return panel.null
 end
 
 function tx.start()
