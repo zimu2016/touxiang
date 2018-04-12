@@ -2,7 +2,10 @@ tx = {}
 local victoryTime = 0
 local m_myTurn = false
 local m_enemyTurn = false
+--每隔10-15秒就随机点两下（排除异常）
 local free_tick = 0
+--若多次出现异常，则投降
+local tick_times = 0
 local wait_time = 10
 
 local curt_panel = 0
@@ -17,6 +20,7 @@ local panel = {
 	getGold = 7,
 	setting = 8,
 	cost = 9,
+	connectErr = 10,
 }
 
 function tx.total()
@@ -62,18 +66,25 @@ function tx.total()
 			tap(x,y)
 			waitSec(0.5)
 		end
-	elseif curt_panel == panel.cost then
-		nLog("cost")
-		free_tick = 0
-		m_myTurn = true
-		m_enemyTurn = true
+	elseif curt_panel == panel.connectErr then
+		nLog("connectErr")
+		local x = random(610,664)
+		local y = random(424,437)
+		tap(x,y)
+		waitSec(0.5)
 	elseif curt_panel == panel.null then
 		nLog("tick: "..free_tick)
 		free_tick = free_tick + 1
 		if free_tick > wait_time then
+			tick_times = tick_times + 1
 			wait_time = random(10,15)
 			tx.randomClick()
 			free_tick = 0
+		end
+
+		if tick_times >=5 then
+			m_myTurn = true
+			m_enemyTurn = true
 		end
 	end
 
@@ -91,21 +102,25 @@ function tx.GetCurtPanel()
 		return panel.myTurn
 	end
 
+	-- if ocr2(ocrList.shengli) then
+	if multiColor(colorList.victory,80) or ocr2(ocrList.shengli) then
+		return panel.victory
+	end
+	
 	if multiColor(colorList.enemyTurn,80) then
 		return panel.enemyTurn
 	end
 
+	if multiColor(colorList.connectErr) then
+		return panel.connectErr
+	end
+	
 	if multiColor(colorList.wait) then
 		return panel.wait
 	end
 
 	if multiColor(colorList.xuanpai) then
 		return panel.xuanpai
-	end
-
-	-- if ocr2(ocrList.shengli) then
-	if multiColor(colorList.victory,70) or ocr2(ocrList.shengli) then
-		return panel.victory
 	end
 
 	-- if multiColor(colorList.lose) then
@@ -120,10 +135,7 @@ function tx.GetCurtPanel()
 	if multiColor(colorList.setting) then
 		return panel.setting
 	end
-
-	-- if multiColor(colorList.cost,80) then
-	-- 	return panel.cost
-	-- end
+	
 	return panel.null
 end
 
@@ -131,6 +143,7 @@ function tx.start()
 	-- nLog("start")
 	m_myTurn = false
 	m_enemyTurn = false
+	tick_times = 0
 	local x = random(900,970)
 	local y = random(550,620)
 	tap(x,y)
@@ -139,6 +152,7 @@ end
 function tx.victoryEnd()
 	-- nLog("victoryEnd")
 	tx.randomClick()
+	tick_times = 0
 	victoryTime = victoryTime + 1
 	nLog("victoryTime----------"..victoryTime)
 	if victoryTime >= needWin then
@@ -168,6 +182,7 @@ function tx.renshu()
 	-- nLog("renshu")
 	m_myTurn = false
 	m_enemyTurn = false
+	tick_times = 0
 	local x = random(1230,1260)
 	local y = random(695,710)
 	tap(x,y)
