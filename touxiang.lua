@@ -8,6 +8,8 @@ local free_tick = 0
 local tick_times = 0
 local wait_time = 10
 
+local canAddVictory = false
+
 local curt_panel = 0
 local panel = {
 	null = 0,
@@ -82,7 +84,7 @@ function tx.total()
 			free_tick = 0
 		end
 
-		if tick_times >=5 then
+		if tick_times >= 3 then
 			m_myTurn = true
 			m_enemyTurn = true
 		end
@@ -144,6 +146,7 @@ function tx.start()
 	m_myTurn = false
 	m_enemyTurn = false
 	tick_times = 0
+	canAddVictory = true
 	local x = random(900,970)
 	local y = random(550,620)
 	tap(x,y)
@@ -153,8 +156,11 @@ function tx.victoryEnd()
 	-- nLog("victoryEnd")
 	tx.randomClick()
 	tick_times = 0
-	victoryTime = victoryTime + 1
-	nLog("victoryTime----------"..victoryTime)
+	if canAddVictory then
+		canAddVictory = false
+		victoryTime = victoryTime + 1
+		nLog("victoryTime----------"..victoryTime)
+	end
 	if victoryTime >= needWin then
 		-- lua_exit()
 		doBreak = true
